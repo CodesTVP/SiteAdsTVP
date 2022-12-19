@@ -1,4 +1,4 @@
-function addData(name, mail, url, file, contractValid, local, price) {
+function addData(name, mail, url, file, contractValid, local, price, format) {
     if (listIds.indexOf(name) !== -1) name = name + '-' + generateID(5)
     const nameId = adaptName(name)
     const storageRef = firebase.storage().ref(`${nameId}/` + 'elemMedia')
@@ -22,7 +22,7 @@ function addData(name, mail, url, file, contractValid, local, price) {
             task.snapshot.ref.getDownloadURL().then(function (imageURL) {
                 $('.loading').addClass('visually-hidden')
                 db.collection('anunciantes').doc(nameId)
-                    .set({ name, url, mail, image: imageURL, contractValid, local, price })
+                    .set({ name, url, mail, image: imageURL, contractValid, local, price, format })
                 alert('Inserido com sucesso!')
                 $('body').removeClass('ov-hide')
                 $('form').trigger('reset')
@@ -34,7 +34,7 @@ function addData(name, mail, url, file, contractValid, local, price) {
     )
 }
 
-function updateData(mail, url, file, contractValid, local, price) {
+function updateData(mail, url, file, contractValid, local, price, format) {
     const storageRef = firebase.storage().ref(`${$('#form').attr('docId')}/` + 'elemMedia')
     const task = storageRef.put(file)
     console.log($('#form').attr('docId'))
@@ -57,7 +57,7 @@ function updateData(mail, url, file, contractValid, local, price) {
             task.snapshot.ref.getDownloadURL().then(function (imageURL) {
                 $('.loading').addClass('visually-hidden')
                 db.collection('anunciantes').doc($('#form').attr('docId'))
-                    .update({ url, mail, image: imageURL, contractValid, local, price })
+                    .update({ url, mail, image: imageURL, contractValid, local, price, format })
                 alert('Inserido com sucesso!')
                 $('body').removeClass('ov-hide')
                 $('form').trigger('reset')
@@ -78,15 +78,16 @@ $('#form').on('submit', function (e) {
     const contractValid = new Date(dateArray[0], dateArray[1] - 1, dateArray[2]).toString()
     const file = $('#contact-file').get(0).files[0]
     const local = $('#local-ad').val()
+    const format = $('#format-ad').val()
     const contractPrice = $('#contract-price').val()
 
     if (auth.currentUser.uid === 'chgz4lxGrTP0lhgnIFcyu0pYTss1') {
         if ($('#form').attr('action') === 'add') {
-            addData(contactName, contactMail, contactRedirect, file, contractValid, local, contractPrice)
+            addData(contactName, contactMail, contactRedirect, file, contractValid, local, contractPrice, format)
         }
     
         if ($('#form').attr('action') === 'edite') {
-            updateData(contactMail, contactRedirect, file, contractValid, local, contractPrice)
+            updateData(contactMail, contactRedirect, file, contractValid, local, contractPrice, format)
         }
     }
 })
