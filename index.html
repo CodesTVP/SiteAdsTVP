@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anunciantes</title>
+    <link rel="shortcut icon" href="assets/ADsTVPovao.png" type="image/x-icon">
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body style="background-color: rgb(12, 13, 14);">
+    <div class="blocked text-white">
+        <img src="assets/585e4bf3cb11b227491c339a.png" alt="User-Logo" width="90px">
+        <h2>Você precisa estar autenticado como o administrador</h2>
+        <p class="text-muted">Faça login com a única conta de administrador existente</p>
+        <button class="btn btn-primary" btn-login>Fazer Login</button>
+    </div>
+    <header class="bg-black p-3 mb-3 border-bottom">
+        <div class="container">
+            <div
+                class="d-flex flex-nowrap align-items-center justify-content-center justify-content-lg-between text-white">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-decoration-none">
+                    <picture>
+                        <source srcset="assets/vansistem-logo-larga.png"
+                            media="(min-width: 1050px)" width="210px" height="auto">
+                        <img src="assets/vansistem-logo-sem-fundo.png"
+                            alt="logo" width="48" height="48">
+                    </picture>
+                </a>
+
+                <form class="col-8 col-lg-5 mx-3">
+                    <input type="search" id="search-anunciantes" class="text-white form-control bg-black"
+                        placeholder="Procurar anunciante..." aria-label="Procurar anunciante" />
+                </form>
+
+                <div class="d-flex align-items-center">
+                    <div class="me-0 me-md-4 d-inline-flex">
+                        <button class="btn btn-success me-2" btn-login>Entrar</button>
+                        <button disabled class="disabled btn btn-danger" btn-logout>Sair</button>
+                    </div>
+                    <div class="d-none d-lg-block text-white">
+                        <p user-name class="fw-bold m-0 p-0 text-end"></p>
+                        <p user-email class="m-0 p-0 text-end"></p>
+                    </div>
+                    <img src="assets/585e4bf3cb11b227491c339a.png"
+                        alt="user-logo" width="32" height="32" class="rounded-circle ms-3" user-img />
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="m-5">
+        <button toggle-form action="add" class="btn btn-success">Abrir formulário</button>
+
+        <form id="form" action="add" docId="" class="mt-4 mw-100 bg-black p-4 text-white rounded-2" width="300px">
+            <h2>Adicionar anunciante</h2>
+            <div class="mb-3">
+                <label for="contact-file" class="form-label">Carregar mídia</label>
+                <input type="file" id="contact-file" class="text-white form-control bg-black">
+            </div>
+            <div class="mb-3" id="region-contact-name">
+                <label for="contact-name" class="form-label">Nome do anunciante</label>
+                <input type="text" id="contact-name" class="text-white form-control bg-black"
+                    placeholder="Nome do anunciante">
+            </div>
+            <div class="mb-3">
+                <label for="contact-mail" class="form-label">E-mail do anunciante</label>
+                <input type="email" id="contact-mail" class="text-white form-control bg-black"
+                    placeholder="ex@email.com">
+            </div>
+            <div class="mb-3">
+                <label for="contact-redirect" class="form-label">Redirecionar para:</label>
+                <input type="url" id="contact-redirect" class="text-white form-control bg-black" value="https://">
+            </div>
+            <div class="mb-3">
+                <label for="contact-validity" class="form-label">Vencimento do contrato:</label>
+                <input type="date" class="form-control bg-black text-white" id="contact-validity">
+            </div>
+            <div class="mb-3">
+                <label for="local-ad" class="form-label">Local do anuncio:</label>
+                <select class="form-select bg-black text-white" id="local-ad">
+                    <option value="header">Somente no cabeçalho</option>
+                    <option value="footer">Somente no rodapé</option>
+                    <option value="main">Somente no conteúdo principal</option>
+                    <option value="footer-main">No rodapé e no conteúdo principal</option>
+                    <option value="header-main">No cabeçalho e no conteúdo principal</option>
+                    <option value="header-footer">No rodapé e no cabeçalho</option>
+                    <option value="all-locals">Em todos os lugares do site</option>
+                    <option value="anchor">Fixo no topo ou no 'chão' do site</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="contract-price" class="form-label">Valor do contrato:</label>
+                <input type="text" class="form-control bg-black text-white" id="contract-price" onkeyup="formateToReal()" />
+                <script>
+                    function formateToReal() {
+                        const elem = document.querySelector('#contract-price')
+                        let valor = elem.value
+
+                        valor = valor + ''
+                        valor = parseInt(valor.replace(/[\D]+/g, ''))
+                        valor = valor + ''
+                        valor = valor.replace(/([0-9]{2})$/g, ",$1").replace(/(\d)(?=(\d{3})+\,)/g, '$1.')
+                        valor = `R$ ${valor}`
+
+                        elem.value = valor
+                        if (valor === 'R$ NaN') elem.value = ''
+                    }
+
+                </script>
+            </div>
+            <button type="submit" disabled class="btn disabled btn-primary" btn-add>Adicionar anunciante</button>
+        </form>
+        <ul list-contacts class="text-white mt-3 p-0">
+            <div class="loading rounded-2 d-flex justify-content-center align-items-center"
+                style="height: 300px;">
+                <div class="spinner-border text-primary" role="status">
+                </div>
+            </div>
+        </ul>
+    </main>
+
+    <div
+        class="loading position-fixed top-0 start-0 h-100 w-100 d-flex flex-column justify-content-center align-items-center  visually-hidden">
+        <div class="spinner-border text-primary" role="status">
+        </div>
+        <span class="my-1 text-white load-text">Carregado</span>
+        <div class="progress" id="progress-load">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"
+                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <span class="text-white" percentage-uploader></span>
+    </div>
+
+    <div class="loader-main">
+        <img src="assets/vansistem-logo-sem-fundo.png"
+            alt="Vansistem" width="75px" style="position: absolute;">
+        <div class="loader">
+            <span style="--i:1;"></span>
+            <span style="--i:2;"></span>
+            <span style="--i:3;"></span>
+            <span style="--i:4;"></span>
+            <span style="--i:5;"></span>
+            <span style="--i:6;"></span>
+            <span style="--i:7;"></span>
+            <span style="--i:8;"></span>
+            <span style="--i:9;"></span>
+            <span style="--i:10;"></span>
+            <span style="--i:11;"></span>
+            <span style="--i:12;"></span>
+            <span style="--i:13;"></span>
+            <span style="--i:14;"></span>
+            <span style="--i:15;"></span>
+            <span style="--i:16;"></span>
+            <span style="--i:17;"></span>
+            <span style="--i:18;"></span>
+            <span style="--i:19;"></span>
+            <span style="--i:20;"></span>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-storage.js"></script>
+    <script>
+        this.userId = window.localStorage.getItem('userId')
+    </script>
+    <script src="./js/index.js"></script>
+    <script src="./js/search.js"></script>
+    <script src="./js/auth.js"></script>
+    <script src="./js/firebase.js"></script>
+    <script src="./js/display.js"></script>
+</body>
+
+</html
