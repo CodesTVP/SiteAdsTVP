@@ -39,6 +39,7 @@ function displayData(data) {
                         <p class="m-0"><strong>Data de validade do contrato</strong>: ${new Date(user.data().contractValid).toLocaleDateString()}</p>
                         <p class="m-0"><strong>Dias restantes de validade do contrato</strong>: ${Math.floor((new Date(user.data().contractValid) - new Date) / (1000 * 60 * 60 * 24))} dias</p>
                         <p class="m-0"><strong>Local de exibição</strong>: ${renameLocal(user.data().local)}</p>
+                        <p class="m-0"><strong>Formato do anúncio</strong>: ${renameFormat(user.data().format)}</p>
                         <p class="m-0"><strong>Preço do contrato</strong>: ${user.data().price}</p>
                     </div>
                     <hr class="bg-white border-2 border-top border-white">
@@ -80,8 +81,25 @@ function renameLocal(local) {
             return 'No rodapé e no conteúdo principal'
         case 'header-footer':
             return 'No cabeçalho e no rodapé'
+        case 'all-locals':
+            return 'Todos os lugares'
+        case 'anchor':
+            return 'Ancora: Fixo no topo ou no "chão"'
         default:
-            return 'Local inesperado - Erro!'
+            return 'Erro: Local inesperado!'
+    }
+}
+
+function renameFormat(format) {
+    switch (format) {
+        case 'square':
+            return 'Quadrado'
+        case 'vertical rectangle':
+            return 'Retângulo vertical'
+        case 'horizontal-rectangle':
+            return 'Retângulo horizontal'
+        default:
+            return 'Erro: Formato inesperado!'
     }
 }
 
