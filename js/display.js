@@ -92,8 +92,6 @@ function renameLocal(local) {
 
 function renameFormat(format) {
     switch (format) {
-        case 'square':
-            return 'Quadrado'
         case 'vertical rectangle':
             return 'Retângulo vertical'
         case 'horizontal-rectangle':
