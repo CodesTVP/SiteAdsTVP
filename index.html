@@ -105,6 +105,14 @@
                 </select>
             </div>
             <div class="mb-3">
+                <label for="show-pages" class="form-label">Páginas onde será exibido</label>
+                <select class="form-select bg-black text-white" id="show-pages">
+                    <option value="home-page">Somente na página inicial</option>
+                    <option value="post">Somente em posts</option>
+                    <option value="all-pages">Em todas as páginas</option>
+                </select>
+            </div>
+            <div class="mb-3">
                 <label for="contract-price" class="form-label">Valor do contrato:</label>
                 <input type="text" class="form-control bg-black text-white" id="contract-price" onkeyup="formateToReal()" />
                 <script>

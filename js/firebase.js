@@ -1,4 +1,4 @@
-function addData(name, mail, url, file, contractValid, local, price, format) {
+function addData(name, mail, url, file, contractValid, local, price, format, showPages) {
     if (listIds.indexOf(name) !== -1) name = name + '-' + generateID(5)
     const nameId = adaptName(name)
     const storageRef = firebase.storage().ref(`${nameId}/` + 'elemMedia')
@@ -22,7 +22,7 @@ function addData(name, mail, url, file, contractValid, local, price, format) {
             task.snapshot.ref.getDownloadURL().then(function (imageURL) {
                 $('.loading').addClass('visually-hidden')
                 db.collection('anunciantes').doc(nameId)
-                    .set({ name, url, mail, image: imageURL, contractValid, local, price, format })
+                    .set({ name, url, mail, image: imageURL, contractValid, local, price, format, showPages })
                 alert('Inserido com sucesso!')
                 $('body').removeClass('ov-hide')
                 $('form').trigger('reset')
@@ -34,7 +34,7 @@ function addData(name, mail, url, file, contractValid, local, price, format) {
     )
 }
 
-function updateData(mail, url, file, contractValid, local, price, format) {
+function updateData(mail, url, file, contractValid, local, price, format, showPages) {
     const storageRef = firebase.storage().ref(`${$('#form').attr('docId')}/` + 'elemMedia')
     const task = storageRef.put(file)
     console.log($('#form').attr('docId'))
@@ -57,7 +57,7 @@ function updateData(mail, url, file, contractValid, local, price, format) {
             task.snapshot.ref.getDownloadURL().then(function (imageURL) {
                 $('.loading').addClass('visually-hidden')
                 db.collection('anunciantes').doc($('#form').attr('docId'))
-                    .update({ url, mail, image: imageURL, contractValid, local, price, format })
+                    .update({ url, mail, image: imageURL, contractValid, local, price, format, showPages })
                 alert('Inserido com sucesso!')
                 $('body').removeClass('ov-hide')
                 $('form').trigger('reset')
@@ -80,6 +80,7 @@ $('#form').on('submit', function (e) {
     const local = $('#local-ad').val()
     const format = $('#format-ad').val()
     const contractPrice = $('#contract-price').val()
+    const showPages = $('#show-pages').val()
 
     if (auth.currentUser.uid === 'chgz4lxGrTP0lhgnIFcyu0pYTss1') {
         if ($('#form').attr('action') === 'add') {
@@ -87,7 +88,7 @@ $('#form').on('submit', function (e) {
         }
     
         if ($('#form').attr('action') === 'edite') {
-            updateData(contactMail, contactRedirect, file, contractValid, local, contractPrice, format)
+            updateData(contactMail, contactRedirect, file, contractValid, local, contractPrice, format, showPages)
         }
     }
 })
