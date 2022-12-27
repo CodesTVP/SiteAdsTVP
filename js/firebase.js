@@ -22,7 +22,7 @@ function addData(name, mail, url, file, contractValid, local, price, format, sho
             task.snapshot.ref.getDownloadURL().then(function (imageURL) {
                 $('.loading').addClass('visually-hidden')
                 db.collection('anunciantes').doc(nameId)
-                    .set({ name, url, mail, image: imageURL, contractValid, local, price, format, showPages })
+                    .set({ id: nameId , name, url, mail, image: imageURL, contractValid, local, price, format, showPages })
                 alert('Inserido com sucesso!')
                 $('body').removeClass('ov-hide')
                 $('form').trigger('reset')
@@ -84,7 +84,7 @@ $('#form').on('submit', function (e) {
 
     if (auth.currentUser.uid === 'chgz4lxGrTP0lhgnIFcyu0pYTss1') {
         if ($('#form').attr('action') === 'add') {
-            addData(contactName, contactMail, contactRedirect, file, contractValid, local, contractPrice, format)
+            addData(contactName, contactMail, contactRedirect, file, contractValid, local, contractPrice, format, showPages)
         }
     
         if ($('#form').attr('action') === 'edite') {
