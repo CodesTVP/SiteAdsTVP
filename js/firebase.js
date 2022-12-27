@@ -58,7 +58,7 @@ function updateData(mail, url, file, contractValid, local, price, format, showPa
                 $('.loading').addClass('visually-hidden')
                 db.collection('anunciantes').doc($('#form').attr('docId'))
                     .update({ url, mail, image: imageURL, contractValid, local, price, format, showPages })
-                alert('Inserido com sucesso!')
+                alert('Editado com sucesso!')
                 $('body').removeClass('ov-hide')
                 $('form').trigger('reset')
                 $('#progress-load > div').attr('aria-valuenow', 0)
