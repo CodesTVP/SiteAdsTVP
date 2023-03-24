@@ -15,7 +15,7 @@ function logout() {
         $('[btn-login]').removeClass('disabled').removeAttr('disabled')
         window.localStorage.setItem('userId', 'no-id')
     }, function (error) {
-        console.error('Sign Out Error', error);
+        console.error('Sign Out Error', error)
     })
         .then(() => window.location.reload(true))
 }
